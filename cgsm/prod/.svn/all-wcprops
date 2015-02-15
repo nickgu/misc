@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/myspace/!svn/ver/191301/st/public/gusimiu/cgsm/prod
+END
+helper.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/myspace/!svn/ver/191301/st/public/gusimiu/cgsm/prod/helper.h
+END
+c_prod.cc
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/myspace/!svn/ver/191301/st/public/gusimiu/cgsm/prod/c_prod.cc
+END
+test_prod.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/myspace/!svn/ver/191301/st/public/gusimiu/cgsm/prod/test_prod.py
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/myspace/!svn/ver/191301/st/public/gusimiu/cgsm/prod/Makefile
+END

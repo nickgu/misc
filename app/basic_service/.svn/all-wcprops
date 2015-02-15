@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/myspace/!svn/ver/123060/st/public/gusimiu/app/basic_service
+END
+test_client.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/myspace/!svn/ver/123060/st/public/gusimiu/app/basic_service/test_client.py
+END
+service_mgr.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/myspace/!svn/ver/123060/st/public/gusimiu/app/basic_service/service_mgr.py
+END

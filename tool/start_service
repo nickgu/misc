@@ -1,0 +1,25 @@
+#! /bin/sh
+
+if [ $# -ne 1 ]; then
+	echo "Usage: start_service <python_service>"
+	exit -1
+fi
+
+python_cmd='python'
+cmd=$1
+pid_list=`ps aux | grep "$python_cmd \<$cmd\>" | awk -F ' ' '{print $2;}'`
+echo "PID_LIST: $pid_list"
+
+echo "Try to stop the old service.." > /dev/stderr
+if [ "$pid_list" == "" ]; then
+	echo "PID is empty, Go on."
+else
+	for pid in $pid_list; do
+		echo "PID=$pid. Kill it!"
+		kill -9 $pid
+	done
+fi
+
+echo "Try to start service.."
+nohup $python_cmd $cmd &> log.txt & 
+echo "Okey, I make it started."

@@ -1,0 +1,26 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+PATH=$PATH:$HOME/gusimiu/mycode/gusimiu/tool
+PYTHONPATH=$PYTHONPATH:$HOME/gusimiu/mycode/gusimiu
+
+export PATH
+export CVSROOT=:pserver:gusimiu@newcvs.baidu.com:/data/cvsroot
+export SVN_EDITOR=vim
+
+unset USERNAME
+
+alias hi=history
+alias hig='hi|grep'
+alias gcl=~/lisp/gcl-2.6.7/bin/gcl
+alias py=python
+#alias hfs_stoff="/home/work/gusimiu/hadoop-client-stoff/hadoop/bin/hadoop fs"
+#alias hfs_sz="/home/work/gusimiu/hadoop-client-szjjh/hadoop/bin/hadoop fs"
+
+# screen dir.
+#export SCREENDIR=$HOME/gsm-screen

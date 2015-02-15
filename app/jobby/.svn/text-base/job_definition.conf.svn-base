@@ -1,0 +1,297 @@
+# 通用建库系统任务定义
+[.job]
+files=misc/misc_job.py
+
+################################################
+# 模板-》内建函数定义 
+################################################
+
+# shell模板
+[JobTypeShell]
+__job_template=JobShell
+
+# hadoop.py模板
+[JobTypeHadoop]
+__job_template=JobHadoop
+shell_type=JobTypeShell
+
+# 复合任务模板
+[JobTypeCombine]
+__job_template=JobCombine
+
+# param.
+#   src
+#   dest
+#   retry_times [default : 10]
+[JobTypeFetchFile]
+__job_template=JobFetchFile
+
+[JobTypeFetchMultiFile]
+__job_template=JobFetchMultiFile
+
+[JobTypePutMultiFile]
+put=1
+__job_template=JobFetchMultiFile
+
+# 比较特殊的任务，从基础层的数据中读取数据并设置全局变量
+[InnerJobLoadFlist]
+__job_template=JobLoadFileListSetGlobalVar
+
+################################################
+# 内建任务列表 
+################################################
+
+# 报警任务模板
+# title
+# job_name
+# receiver_list
+[JobType_Alert]
+__job_type=JobTypeShell
+cmd=echo 'Error happened! [[ %(job_name)s ]]' | mail -s '[Error] %(title)s' %(receiver)s
+receiver=%(receiver_list)s
+
+################################################
+# 基础hadoop任务
+################################################
+# mkdir
+# paramneed:
+# 	<path>
+[JobType_hdfs_mkdir]
+__job_type=JobTypeHadoop
+jobs=job_fs
+var=cmd_num=1;cmd1=mkdir %(path)s
+
+# cp
+#  直接fs cp好像比map的cat还要慢。。
+# paramneed:
+# 	<src>
+#	<dest>
+[JobType_hdfs_copy]
+__job_type=JobTypeHadoop
+jobs=job_simple_map
+var=_input=%(src)s;_output=%(dest)s;_mapper=cat;_files=
+
+################# 获取基础层数据 ####################
+[__JobType_Get_FLIST]
+__job_type=JobTypeFetchFile
+src=%(flist_hdfs_path)s
+dest=%(flist_path)s
+
+[__JobType_Remove_FLIST]
+__job_type=JobTypeShell
+cmd=rm -rf %(flist_path)s
+
+#################################################
+# 简单mapper任务，处理一些基本文件操作，如cat等等
+# param needed:
+# 	input
+# 	output
+# 	mapper
+# 	files
+#################################################
+[JobTypeSimpleMap]
+__job_type=JobTypeHadoop
+jobs=job_simple_map
+var=_input=%(input)s;_output=%(output)s;_mapper=%(mapper)s;_files=%(files)s
+
+#################################################
+# 下载基础层的数据并设置为全局变量
+# 通常作为建库的基本操作，第一个执行
+# ###############################################
+[JobType_Init_FLIST]
+__job_type=JobTypeCombine
+jobs=__JobType_Remove_FLIST,__JobType_Get_FLIST,InnerJobLoadFlist
+
+################# 解析服务 ####################
+# 单机解析XML任务
+# needed:
+#   input
+#   output
+[JobType_Parse_XML_SI]
+__job_type=JobTypeShell
+cmd=%(python)s %(xml_parser)s -i %(input)s -o %(output)s
+
+# needed:
+#   input
+#   output
+[JobType_Parse_AVP_SI]
+__job_type=JobTypeShell
+cmd=%(python)s %(avp_parser)s -i %(input)s -o %(output)s
+
+# needed:
+#   input
+#   output
+[JobType_Parse_Json_SI]
+__job_type=JobTypeShell
+cmd=%(python)s %(json_parser)s -i %(input)s -o %(output)s
+
+# needed:
+#   input
+#   output
+#   conf
+[JobType_Parse_SI]
+__job_type=JobTypeShell
+cmd=%(python)s parser/parser.py -c %(conf)s < %(input)s > %(output)s
+
+# needed:
+#   input
+#   output
+#   conf
+[JobType_Parse_Tab_SI]
+__job_type=JobTypeShell
+cmd=%(python)s parser/tab_parser.py -c %(conf)s < %(input)s > %(output)s
+
+# 分布式解析XML任务
+# needed:
+#   hdfs_in
+#   hdfs_out
+#   conf
+#   conf_path
+[JobType_Parse_XML_DI]
+__job_type=JobTypeHadoop
+jobs=job_parser_xml
+var=hdfs_in=%(hdfs_in)s;hdfs_out=%(hdfs_out)s;conf=%(conf)s;conf_path=%(conf_path)s
+
+# 分布式解析Tab任务
+# needed:
+#   hdfs_in
+#   hdfs_out
+#   conf
+#   conf_path
+[JobType_Parse_Tab_DI]
+__job_type=JobTypeHadoop
+jobs=job_parser_tab
+var=hdfs_in=%(hdfs_in)s;hdfs_out=%(hdfs_out)s;conf=%(conf)s;conf_path=%(conf_path)s
+
+# 分布式解析AVP任务
+# needed:
+#   hdfs_in
+#   hdfs_out
+#   conf
+#   conf_path
+[JobType_Parse_AVP_DI]
+__job_type=JobTypeHadoop
+jobs=job_parser_avp
+var=hdfs_in=%(hdfs_in)s;hdfs_out=%(hdfs_out)s;conf=%(conf)s;conf_path=%(conf_path)s
+
+# 分布式解析JSON任务
+# needed:
+#   hdfs_in
+#   hdfs_out
+#   conf
+#   conf_path
+[JobType_Parse_JSON_DI]
+__job_type=JobTypeHadoop
+jobs=job_parser_json
+var=hdfs_in=%(hdfs_in)s;hdfs_out=%(hdfs_out)s;conf=%(conf)s;conf_path=%(conf_path)s
+
+
+################# 策略模板：merge ####################
+# needed
+#   conf
+[JobType_Strategy_Merge_SI]
+__job_type=JobTypeShell
+cmd=./general_merge.py -l info %(conf)s
+
+# needed:
+#   hdfs_in : 可以输入多个input,用逗号分隔
+#   hdfs_out
+#   conf
+#   conf_path
+#   middle_prefix # 中间路径前缀
+[JobType_Strategy_Merge_DI]
+__job_type=JobTypeHadoop
+jobs=job_general_merge
+var=hdfs_in=%(hdfs_in)s;hdfs_out=%(hdfs_out)s;middle_prefix=%(middle_prefix)s;conf=%(conf)s;conf_path=%(conf_path)s
+
+################# 策略模板：指代挖掘 ####################
+# needed:
+# 	hdfs_in
+# 	hdfs_out
+# 	middle_prefix
+[JobType_Strategy_Corefer_DI]
+__job_type=JobTypeHadoop
+jobs=job_corefer_mine
+var=hdfs_in=%(hdfs_in)s;hdfs_out=%(hdfs_out)s;middle_prefix=%(middle_prefix)s;conf=%(conf)s;conf_path=%(conf_path)s
+
+#########################################################
+# 工具服务:将某种格式的zxfile转换json并上传hadoop  
+#########################################################
+# param:
+#   input 
+#   input_reader
+#   hdfs_dest
+#   temp_path
+[JobType_LocalEntityBase2Hadoop]
+__job_type=JobTypeCombine
+jobs=JobTypeEntityTrans,JobTypePutFileHadoop
+input=%(input)s
+output=%(temp_path)s/trans_entity.txt
+src=%(output)s
+dest=%(hdfs_dest)s
+
+# param:
+#   input
+#   output
+#   input_reader
+[JobTypeEntityTrans]
+__job_type=JobTypeShell
+cmd=zxdb/file_adapter.py -i %(input)s -o %(output)s -t %(input_reader)s -u ZXJsonFileWriter
+
+# param:
+#   src
+#   dest
+[JobTypePutFileHadoop]
+__job_type=JobTypeHadoop
+jobs=job_put_file
+var=src=%(src)s;dest=%(dest)s
+
+################# 建库服务 ####################
+# zxbuilder服务
+# needed:
+#   input
+#   base_name
+# default:
+#   use_old : []
+#   reader_type : ZXFileReader
+[JobType_ZXBuilder]
+__job_type=JobTypeShell
+cmd=%(python)s ./zxbuilder.py -c %(conf)s -f %(input)s -n %(base_name)s -l info -t %(reader_type)s %(use_old)s
+conf=%(home_path)s/conf/builder.conf
+# 设置默认情况不清除表，如果设置use_old=-o则会去除表信息
+use_old=
+# 默认reader.
+reader_type=ZXFileReader
+
+# 将建好的库move到线上位置。
+# param needed:
+# 	hdfs_in
+# 	base_name (move to %(hdfs_final_out)s/entity.%(base_name)s)
+[JobType_MoveToOnline]
+__job_type=JobTypeCombine
+jobs=JobType_hdfs_copy,__JobMoveOnline
+src=%(hdfs_in)s
+dest=%(hdfs_final_out)s/entity.%(base_name)s.on_copy
+
+[__JobMoveOnline]
+__job_type=JobTypeHadoop
+jobs=job_move_dir
+var=src=%(hdfs_final_out)s/entity.%(base_name)s.on_copy;dest=%(hdfs_final_out)s/entity.%(base_name)s
+
+#######################################################
+# 实体查询过程
+# param needed:
+# 	hdfs_in : hdfs目录
+#	query : query文件
+#	query_path : query文件路径
+#######################################################
+[JobType_Query]
+__job_type=JobTypeHadoop
+jobs=job_entity_filter
+var=hdfs_in=%(hdfs_in)s;query=%(query)s;query_path=%(query_path)s
+
+
+
+
+
+

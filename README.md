@@ -1,2 +1,1 @@
-# misc
-my misc code not organized.
+# this is readme.

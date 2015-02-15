@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/myspace/!svn/ver/143711/st/public/gusimiu/pyext/kvdict/lib/ullib/include/comlog/appender
+END
+asyncfileappender.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/myspace/!svn/ver/143711/st/public/gusimiu/pyext/kvdict/lib/ullib/include/comlog/appender/asyncfileappender.h
+END
+appender.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/myspace/!svn/ver/143711/st/public/gusimiu/pyext/kvdict/lib/ullib/include/comlog/appender/appender.h
+END
+fileappender.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/myspace/!svn/ver/143711/st/public/gusimiu/pyext/kvdict/lib/ullib/include/comlog/appender/fileappender.h
+END
+ttyappender.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/myspace/!svn/ver/143711/st/public/gusimiu/pyext/kvdict/lib/ullib/include/comlog/appender/ttyappender.h
+END
+ullogappender.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/myspace/!svn/ver/143711/st/public/gusimiu/pyext/kvdict/lib/ullib/include/comlog/appender/ullogappender.h
+END
+netappender.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/myspace/!svn/ver/143711/st/public/gusimiu/pyext/kvdict/lib/ullib/include/comlog/appender/netappender.h
+END
+appenderfactory.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/myspace/!svn/ver/143711/st/public/gusimiu/pyext/kvdict/lib/ullib/include/comlog/appender/appenderfactory.h
+END

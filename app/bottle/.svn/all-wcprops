@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/myspace/!svn/ver/123060/st/public/gusimiu/app/bottle
+END
+test_bottle.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/myspace/!svn/ver/123060/st/public/gusimiu/app/bottle/test_bottle.py
+END
+bottle.py
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/myspace/!svn/ver/123060/st/public/gusimiu/app/bottle/bottle.py
+END
+page.py
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/myspace/!svn/ver/123060/st/public/gusimiu/app/bottle/page.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/myspace/!svn/ver/123060/st/public/gusimiu/app/bottle/__init__.py
+END
+htmlpage.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/myspace/!svn/ver/123060/st/public/gusimiu/app/bottle/htmlpage.py
+END
