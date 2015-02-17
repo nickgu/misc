@@ -6,12 +6,13 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # User specific environment and startup programs
-PATH=$PATH:$HOME/gusimiu/mycode/gusimiu/tool
-PYTHONPATH=$PYTHONPATH:$HOME/gusimiu/mycode/gusimiu
+MISC_PATH=$HOME/misc
+export MISC_PATH 
+
+PATH=$PATH:$MISC_PATH/tool
+PYTHONPATH=$PYTHONPATH:$MISC_PATH/pygsm
 
 export PATH
-export CVSROOT=:pserver:gusimiu@newcvs.baidu.com:/data/cvsroot
-export SVN_EDITOR=vim
 
 unset USERNAME
 
