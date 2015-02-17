@@ -1,3 +1,0 @@
-#! /bin/sh
-
-iconv -f gb18030 -t utf-8 $@

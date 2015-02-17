@@ -1,3 +1,0 @@
-#! /bin/sh
-
-echo "ftp://"`hostname``pwd`/$1
