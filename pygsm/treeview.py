@@ -11,6 +11,7 @@ class JsonTreeView:
         self.__objs = []
         self.__cur = self.__objs
         self.__path = []
+        self.__tags = []
         for line in file(file_name).readlines():
             d = json.loads(line.strip('\n'))
             self.__objs.append( d )
@@ -37,15 +38,17 @@ class JsonTreeView:
                 continue
             elif item == '..':
                 self.__cur = self.__path.pop()
+                self.__tags.pop()
             else: # downward.
                 self.__path.append(self.__cur)
+                self.__tags.append(item)
                 if isinstance(self.__cur, list):
                     self.__cur = self.__cur[int(item)]
                 elif isinstance(self.__cur, dict):
                     self.__cur = self.__cur[item]
 
     def pwd(self):
-        print ''
+        print '/' + '/'.join(self.__tags)
 
     def dump(self):
         print json.dumps(self.__cur, ensure_ascii=False, indent=2)
