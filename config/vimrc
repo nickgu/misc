@@ -1,28 +1,52 @@
-" gsm's vim configuration.
+" gsm's vim profile.
 se nocp nu
 behave mswin
-so $VIMRUNTIME/mswin.vim
-
-" Color schema.
 colo evening 
+so $VIMRUNTIME/mswin.vim
+syn on
+se hlsearch
 
-" Tab schema.
+se cindent
 se shiftwidth=4
-se softtabstop=4
 se tabstop=4
-se expandtab
-se autoindent
-se smartindent
 
-se showmatch
+se nobackup
+se nowritebackup
+
+function PythonBegin()
+	call setline(1, "\# -*- coding: utf-8 -*-")
+	call setline(2, "\# gusimiu@baidu.com")
+	call setline(3, "\# ")
+	call setline(4, "")
+    call setline(5, "if __name__ == '__main__':")
+    call setline(6, "    ")
+	call setpos('.', [0, 6, 4, 0])
+endfunction
+
+" 根据文件类型设置是否打开tab扩展，
+" python文件将tag扩展为空格
+filetype on
+se expandtab
+se smarttab
+au Filetype python se formatoptions+=r
+"au Filetype python se expandtab
+"au FileType python se smarttab
+au FileType python se fenc=utf-8
+au BufNewFile *.py exec ":call PythonBegin()"
+
+se nowrap
+
+"se noexpandtab
 se showcmd
 se ruler
 se wildmenu
 se tags=./tags,tags,$HOME/rs/tags
-set fencs=ucs-bom,UTF-8,cp936,default,latin1
 
-set list
-set listchars=tab:>-,trail:-        
+set fencs=ucs-bom,UTF-8,cp936,default,latin1 " 检测文件编码类型
+set encoding=chinese " 显示方式
+
+set list                " 显示空白字符
+set listchars=tab:>-        " 显示tab
 
 hi Macro ctermfg=red
 hi Normal ctermfg=white
@@ -34,7 +58,7 @@ map <C-K> ]czz
 map <C-M> :diffg<CR>
 
 map <C-N> :noh<CR>
-"map <F10> :se enc=chinese<CR>
+map <F10> :se enc=chinese<CR>
 map <F6> :se fdm=syntax<CR>
 map <F7> :se fdm=manual<CR>
 map <F8> :%s/\r//g<CR>
@@ -42,10 +66,13 @@ map <F8> :%s/\r//g<CR>
 map + gt
 map _ gT
 
-map <F11> :!p=`pwd\|grep ".*gusimiu/[^/]*/[^/]*/" -o`; echo $p; ctags --c++-kinds=+p -R $p; mv tags ~/;<CR><CR>:se tags=~/tags<CR>
-se tags=~/tags
+" 从二级目录开始执行ctags，第一层目录作为项目名称
+map <F11> :!p=`pwd\|grep ".*gusimiu/[^/]*/[^/]*/" -o`; echo $p; ctags --c++-kinds=+p -R $p; mv tags ~/gusimiu/;<CR><CR>:se tags=~/gusimiu/tags<CR>
+se tags=~/gusimiu/tags
 
 map <C-H> O//---------------------------  --------------------------<ESC>bhi
+au Filetype python map <C-H> O##################################################<ESC>bhi
+
 map <C-O> O/**<CR> <CR>/<UP><ESC>$a
 map <C-F> O/**<CR>author : gusimiu@baidu.com<CR>date : <CR>brief : <CR>/<UP><UP><ESC>$a
 map <C-I> $a ///< 
@@ -56,8 +83,14 @@ map <C-B> <C-Q>
 map <C-W>f <C-W>w<C-W>200+<C-W>200> 
 
 "tag list
+let Tlist_Ctags_Cmd='ctags'
 map <F12> :TlistToggle<CR>
-"let Tlist_File_Fold_Auto_Close=1
+map <C-P> :TlistToggle<CR>
+let Tlist_File_Fold_Auto_Close=1
 let Tlist_WinWidth=40
+
+" comdg.vim plug access.
+"let loaded_gendocument=1
+
 
 

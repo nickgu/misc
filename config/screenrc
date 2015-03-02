@@ -1,0 +1,25 @@
+
+# F1: prev
+bindkey -k k1 prev 
+# F2: next
+bindkey -k k2 next
+# F3: rename.
+bindkey -k k3 title 
+
+# F4: new
+bindkey -k k4 screen
+# F5: kill
+bindkey -k k5 kill
+# F6 detach
+bindkey -k k6 detach
+# F7 quit
+bindkey -k k7 quit
+# F8 windows list
+bindkey -k k8 windowlist
+
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{=kw}%?%-Lw%?%{R}(%{= kG}%n*%f %t%?(%u)%?%{R})%{g}%?%+Lw%?%?%= %{g}][%{B}%Y-%m-%d %{g}] %{R}[ ]%{R}'
+
+vbell off
+screen bash
+screen bash
