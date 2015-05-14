@@ -1,13 +1,22 @@
 #! /bin/env python
 # encoding=utf-8
 #
+#   V1.1:
+#       change pygsm.misc and pygsm.arg to pydev.
+#       make it possible to support multi-configuration loaded.
+#       such as:
+#           [common_job]
+#           .. some config ..
+#
+#           [derived_job]
+#           .. more config ..
+#
 #   V1.0.1:
 #       add mapinstream.
 #   V1.0:
 #       complete.
 #
 
-import ConfigParser
 import logging
 import sys
 import os
@@ -176,38 +185,35 @@ def proc_streaming_job(hadoop, conf, sec):
 
     # get info from conf.
     input = conf.get(sec, 'input').split(',')
-    output = conf_get(conf, sec, 'output')
-    mapper = conf_get(conf, sec, 'mapper', default='NONE')
-    reducer = conf_get(conf, sec, 'reducer', default='NONE')
-    cmd = conf_get(conf, sec, 'command', default='streaming')
-    mapper_num = conf_get(conf, sec, 'mapper_num', default=None)
+    output = conf.get(sec, 'output')
+    mapper = conf.get(sec, 'mapper', default='NONE')
+    reducer = conf.get(sec, 'reducer', default='NONE')
+    cmd = conf.get(sec, 'command', default='streaming')
+    mapper_num = conf.get(sec, 'mapper_num', default=None)
     if mapper_num!=None:
         mapper_num = int(mapper_num)
-    reducer_num = conf_get(conf, sec, 'reducer_num', default=None)
+    reducer_num = conf.get(sec, 'reducer_num', default=None)
     if reducer_num!=None:
         reducer_num = int(reducer_num)
-    mapper_capacity = conf_get(conf, sec, 'mapper_capacity', default=None)
+    mapper_capacity = conf.get(sec, 'mapper_capacity', default=None)
     if mapper_capacity!=None:
         mapper_capacity = int(mapper_capacity)
-    reducer_capacity = conf_get(conf, sec, 'reducer_capacity', default=None)
+    reducer_capacity = conf.get(sec, 'reducer_capacity', default=None)
     if reducer_capacity!=None:
         reducer_capacity = int(reducer_capacity)
 
 
-    files = conf_get(conf, sec, 'files', default='').split(',')
-    priority = conf_get(conf, sec, 'priority', default='HIGH')
-    partitioner = conf_get(conf, sec, 'partitioner', default=None)
-    extra_jobconf = conf_get(conf, sec, 'extra_jobconf', default='').split(',')
-    cmdenv = conf_get(conf, sec, 'cmdenv', default='').split(',')
-    archive = conf_get(conf, sec, 'archive', default='').split(',')
-    queue = conf_get(conf, sec, 'queue', default=None)
-    groups = conf_get(conf, sec, 'groups', default=None)
-    mapinstream = conf_get(conf, sec, 'mapinstream', default=None)
-    inputformat = conf_get(conf, sec, 'inputformat', default=None)
-    outputformat = conf_get(conf, sec, 'outputformat', default=None)
-
-    # get hdfs_host from [var]
-    hdfs_host = conf.defaults()['hdfs_host']
+    files = conf.get(sec, 'files', default='').split(',')
+    priority = conf.get(sec, 'priority', default='HIGH')
+    partitioner = conf.get(sec, 'partitioner', default=None)
+    extra_jobconf = conf.get(sec, 'extra_jobconf', default='').split(',')
+    cmdenv = conf.get(sec, 'cmdenv', default='').split(',')
+    archive = conf.get(sec, 'archive', default='').split(',')
+    queue = conf.get(sec, 'queue', default=None)
+    groups = conf.get(sec, 'groups', default=None)
+    mapinstream = conf.get(sec, 'mapinstream', default=None)
+    inputformat = conf.get(sec, 'inputformat', default=None)
+    outputformat = conf.get(sec, 'outputformat', default=None)
 
     # rmr old output.
     hadoop.rmdir(output)
@@ -235,10 +241,10 @@ def proc_streaming_job(hadoop, conf, sec):
                 outputformat=outputformat)
 
 def proc_fs_job(hadoop, conf, sec):
-    cmd_num = int(conf_get(conf, sec, 'cmd_num'))
+    cmd_num = int(conf.get(sec, 'cmd_num'))
     for i in range(cmd_num):
         cmd_no = i+1
-        cmd = conf_get(conf, sec, 'cmd%d'%cmd_no)
+        cmd = conf.get(sec, 'cmd%d'%cmd_no)
         ret=hadoop.fs(cmd)
         if ret!=0:
             logging.error('Execute cmd=[%s] failed.' % cmd)
@@ -257,7 +263,7 @@ def process_hadoop_job(hadoop, conf, job):
             if ret!=0:
                 return ret
     else:
-        type = conf_get(conf, job, 'type', default='streaming')
+        type = conf.get(job, 'type', default='streaming')
         if type=='fs':
             return proc_fs_job(hadoop, conf, job)
         else:
@@ -266,7 +272,7 @@ def process_hadoop_job(hadoop, conf, job):
     return 0
 
 if __name__=='__main__':
-    from pygsm.misc import *
+    import pydev
     from pygsm.arg import *
 
     arg = Arg('Hadoop封装程序')
@@ -277,7 +283,10 @@ if __name__=='__main__':
     opt = arg.init_arg()
 
     logging.info('Try to load var_conf at opt=[%s]' % opt.var)
-    conf = var_conf(opt.conf, opt.var, 'var')
+    conf = pydev.VarConfig()
+    conf.read(opt.conf.split(','), 
+            pydev.dict_from_str(opt.var, l1_sep=';', l2_sep='='), 
+            var_sec='var')
 
     # load global info.
     sec = 'hadoop'
@@ -294,6 +303,11 @@ if __name__=='__main__':
                 hadoop.fs(cmd)
     else:
         for job in opt.job.split(','):
+            print >> sys.stderr, 'Process job[%s]' % job
+            if not conf.has_section(job):
+                print >> sys.stderr, 'No job named [%s]' % job
+            for key, value in conf.items(job):
+                logging.info('%s.%s=%s' % (job, key, value))
             ret=process_hadoop_job(hadoop, conf, job)
             if ret!=0:
                 sys.exit(-1)

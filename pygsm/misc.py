@@ -71,6 +71,9 @@ def load_var_dict_by_conf(conf, sec, dct=None):
 def var_conf(conf, var_opt=None, var_sec=None):
     ''' 加强版conf：
         可以通过读取外部opt，或者var_sec字段获取变量
+        1. 先读一遍所有配置，获取所有var_sec字段，作为默认配置
+        2. 将传入的var_dict作为参数覆盖
+        3. 再用解析通过的参数传入解析对应配置
     '''
     var_dict = {}
     if var_sec:
