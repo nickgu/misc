@@ -25,3 +25,6 @@ alias py=python
 
 # screen dir.
 #export SCREENDIR=$HOME/gsm-screen
+
+PS1="\033[32;1m[\`if [[ \$? == "0" ]]; then echo -e '\\033[33m^_^'; else echo -e '\\033[31m@_@'; fi\`\[\e[32;1m\]][\[\[\e[37m\]\t\[\e[32;1m\]]-[\[\e[37m\]\w\[\e[32;1m\]] \[\e[0m\]"
+
