@@ -1,5 +1,12 @@
 #! /bin/env python
 # encoding=utf-8
+#  
+#   V1.2:
+#       add awk_command
+#       mapper_awkt:
+#       reducer_awkt
+#           generate a shell: 
+#               awkt_mapper.sh/awkt_reducer.sh
 #
 #   V1.1:
 #       change pygsm.misc and pygsm.arg to pydev.
@@ -214,6 +221,26 @@ def proc_streaming_job(hadoop, conf, sec):
     mapinstream = conf.get(sec, 'mapinstream', default=None)
     inputformat = conf.get(sec, 'inputformat', default=None)
     outputformat = conf.get(sec, 'outputformat', default=None)
+
+    mapper_awkt = conf_get(conf, sec, 'mapper_awkt', default=None)
+    reducer_awkt = conf_get(conf, sec, 'reducer_awkt', default=None)
+    if mapper_awkt:
+        mapper = '"sh awkt_mapper.sh"'
+        if not mapper_awkt.startswith("'") and not mapper_awkt.startswith('"'):
+            mapper_awkt = "'" + mapper_awkt + "'"
+        awk_cmd = "#! /bin/sh \n\nawk -F\"\t\" %s /dev/stdin\n" % (mapper_awkt) 
+        print >> sys.stderr, 'MAPPER GENERATE AWK{{\n\t%s\n}}' % (awk_cmd.replace('\n', '\n\t|'))
+        file('awkt_mapper.sh', 'w').write(awk_cmd)
+        files.append('awkt_mapper.sh')
+    if reducer_awkt:
+        reducer = '"sh awkt_reducer.sh"'
+        if not reducer_awkt.startswith("'") and not reducer_awkt.startswith('"'):
+            reducer_awkt = "'" + reducer_awkt + "'"
+        awk_cmd = "#! /bin/sh \n\nawk -F\"\t\" '%s' /dev/stdin\n" % (mapper_awkt) 
+        print >> sys.stderr, 'REDUCER GENERATE AWK{{\n\t%s\n}}' % (awk_cmd.replace('\n', '\n\t|'))
+        file('awkt_reducer.sh', 'w').write(awk_cmd)
+        files.append('awkt_reducer.sh')
+
 
     # rmr old output.
     hadoop.rmdir(output)
