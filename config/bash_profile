@@ -5,8 +5,11 @@ if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
+export LC_ALL=C
+export LANG=C
+
 # User specific environment and startup programs
-MISC_PATH=$HOME/misc
+MISC_PATH=$HOME/lab/misc
 export MISC_PATH 
 
 PATH=$PATH:$MISC_PATH/tool
@@ -16,15 +19,23 @@ export PATH
 
 unset USERNAME
 
+
+# ls color set.
+export LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tz=01;31:*.rpm=01;31:*.cpio=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.png=01;35:*.tif=01;35:"
+alias ls='ls -G'
+
 alias hi=history
 alias hig='hi|grep'
 alias gcl=~/lisp/gcl-2.6.7/bin/gcl
 alias py=python
+alias ll='ls -lh'
 #alias hfs_stoff="/home/work/gusimiu/hadoop-client-stoff/hadoop/bin/hadoop fs"
 #alias hfs_sz="/home/work/gusimiu/hadoop-client-szjjh/hadoop/bin/hadoop fs"
 
 # screen dir.
+export TERM=linux
 #export SCREENDIR=$HOME/gsm-screen
 
-PS1="\033[32;1m[\`if [[ \$? == "0" ]]; then echo -e '\\033[33m^_^'; else echo -e '\\033[31m@_@'; fi\`\[\e[32;1m\]][\[\[\e[37m\]\t\[\e[32;1m\]]-[\[\e[37m\]\w\[\e[32;1m\]] \[\e[0m\]"
+PS1="\033[32;1m[\`if [[ \$? == "0" ]]; then echo -e '\\033[33m^_^'; else echo -e '\\033[31m@_@'; fi\`\[\e[32;1m\]][\[\[\e[37m\]`hostname`\[\e[32;1m\]]-[\[\e[37m\]\w\[\e[32;1m\]] \[\e[0m\]"
+
 

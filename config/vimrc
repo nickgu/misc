@@ -14,17 +14,16 @@ se nobackup
 se nowritebackup
 
 function PythonBegin()
-	call setline(1, "\# -*- coding: utf-8 -*-")
-	call setline(2, "\# gusimiu@baidu.com")
-	call setline(3, "\# ")
-	call setline(4, "")
-    call setline(5, "if __name__ == '__main__':")
-    call setline(6, "    ")
-	call setpos('.', [0, 6, 4, 0])
+	call setline(1, "\#! /bin/env python")
+	call setline(2, "\# encoding=utf-8")
+	call setline(3, "\# gusimiu@baidu.com")
+	call setline(4, "\# ")
+	call setline(5, "")
+    call setline(6, "if __name__=='__main__':")
+    call setline(7, "    ")
+	call setpos('.', [0, 7, 4, 0])
 endfunction
 
-" 根据文件类型设置是否打开tab扩展，
-" python文件将tag扩展为空格
 filetype on
 se expandtab
 se smarttab
@@ -42,11 +41,11 @@ se ruler
 se wildmenu
 se tags=./tags,tags,$HOME/rs/tags
 
-set fencs=ucs-bom,UTF-8,cp936,default,latin1 " 检测文件编码类型
-set encoding=chinese " 显示方式
+set fencs=ucs-bom,UTF-8,cp936,default,latin1
+set encoding=chinese 
 
-set list                " 显示空白字符
-set listchars=tab:>-        " 显示tab
+set list                
+set listchars=tab:>-,trail:-
 
 hi Macro ctermfg=red
 hi Normal ctermfg=white
@@ -66,9 +65,8 @@ map <F8> :%s/\r//g<CR>
 map + gt
 map _ gT
 
-" 从二级目录开始执行ctags，第一层目录作为项目名称
 map <F11> :!p=`pwd\|grep ".*gusimiu/[^/]*/[^/]*/" -o`; echo $p; ctags --c++-kinds=+p -R $p; mv tags ~/gusimiu/;<CR><CR>:se tags=~/gusimiu/tags<CR>
-se tags=~/gusimiu/tags
+se tags=~/tags
 
 map <C-H> O//---------------------------  --------------------------<ESC>bhi
 au Filetype python map <C-H> O##################################################<ESC>bhi
@@ -83,14 +81,24 @@ map <C-B> <C-Q>
 map <C-W>f <C-W>w<C-W>200+<C-W>200> 
 
 "tag list
-let Tlist_Ctags_Cmd='ctags'
-map <F12> :TlistToggle<CR>
-map <C-P> :TlistToggle<CR>
-let Tlist_File_Fold_Auto_Close=1
+map <C-I> :!ctags --c++-kinds=+pf -R;<CR><CR>:se tags=./tags<CR>
+map <C-O> :TlistToggle<CR>
+"let Tlist_File_Fold_Auto_Close=1
 let Tlist_WinWidth=40
 
 " comdg.vim plug access.
-"let loaded_gendocument=1
+"let loaded_gendocument=0
+
+" FOR GO LANGUAGE.
+" Some Linux distributions set filetype in /etc/vimrc.
+" Clear filetype flags before changing runtimepath to force Vim to reload them.
+filetype off
+filetype plugin indent off
+set runtimepath+=/home/users/gusimiu/software/go/misc/vim
+filetype plugin indent on
+syntax on
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+
 
 
 
