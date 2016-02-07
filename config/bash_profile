@@ -5,8 +5,24 @@ if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
-export LC_ALL=C
-export LANG=C
+#export LC_ALL=C
+#export LANG=C
+lang_type="en_US.UTF-8"
+export LANG=$lang_type
+export LANGUAGE=$lang_type
+export LC_CTYPE=$lang_type
+export LC_NUMERIC=$lang_type
+export LC_TIME=$lang_type
+export LC_COLLATE=$lang_type
+export LC_MONETARY=$lang_type
+export LC_MESSAGES=$lang_type
+export LC_PAPER=$lang_type
+export LC_NAME=$lang_type
+export LC_ADDRESS=$lang_type
+export LC_TELEPHONE=$lang_type
+export LC_MEASUREMENT=$lang_type
+export LC_IDENTIFICATION=$lang_type
+export LC_ALL=
 
 # User specific environment and startup programs
 MISC_PATH=$HOME/lab/misc
