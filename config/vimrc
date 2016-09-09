@@ -13,6 +13,7 @@ se tabstop=4
 se nobackup
 se nowritebackup
 
+
 function PythonBegin()
 	call setline(1, "\#! /bin/env python")
 	call setline(2, "\# encoding=utf-8")
@@ -57,7 +58,7 @@ map <C-K> ]czz
 map <C-M> :diffg<CR>
 
 map <C-N> :noh<CR>
-map <F10> :se enc=chinese<CR>
+"map <F10> :se enc=chinese<CR>
 map <F6> :se fdm=syntax<CR>
 map <F7> :se fdm=manual<CR>
 map <F8> :%s/\r//g<CR>
@@ -67,6 +68,7 @@ map _ gT
 
 map <F11> :!p=`pwd\|grep ".*gusimiu/[^/]*/[^/]*/" -o`; echo $p; ctags --c++-kinds=+p -R $p; mv tags ~/gusimiu/;<CR><CR>:se tags=~/gusimiu/tags<CR>
 se tags=~/tags
+
 
 map <C-H> O//---------------------------  --------------------------<ESC>bhi
 au Filetype python map <C-H> O##################################################<ESC>bhi
@@ -89,6 +91,11 @@ let Tlist_WinWidth=40
 " comdg.vim plug access.
 "let loaded_gendocument=0
 
+" ==== PLUGIN SETTINGS ====
+
+" Pathogen
+execute pathogen#infect()
+
 " FOR GO LANGUAGE.
 " Some Linux distributions set filetype in /etc/vimrc.
 " Clear filetype flags before changing runtimepath to force Vim to reload them.
@@ -100,5 +107,24 @@ syntax on
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
 
+" TagBar
+"   https://github.com/majutsushi/tagbar/
+" SideBar for current file.
+" toggle tagbar by default.
+" :TagbarToggle
+let g:tagbar_left=1
+let g:tagbar_width = 40
+au Filetype python TagbarToggle
+nmap <F9> :TagbarToggle<CR>
+
+" NerdTree.
+"   https://github.com/scrooloose/nerdtree/
+let NERDTreeWinPos="right"
+au Filetype python NERDTree
+nmap <F10> :NERDTreeToggle<CR>
+
+" CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 
