@@ -93,7 +93,7 @@ syntax on
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
 "tag list
-map <C-I> :!ctags --c++-kinds=+pf -R;<CR><CR>:se tags=./tags<CR>
+map <C-I> :!ctags --c++-kinds=+pf -R;<CR><CR>:se tags=tags<CR>
 map <C-O> :TlistToggle<CR>
 "let Tlist_File_Fold_Auto_Close=1
 let Tlist_WinWidth=40
@@ -121,7 +121,7 @@ Plugin 'rking/ag.vim'
 " SideBar for current file.
 " toggle tagbar by default.
 " :TagbarToggle
-let g:tagbar_left=1
+let g:tagbar_left=0
 let g:tagbar_width = 30
 "au Filetype python TagbarOpen
 "au Filetype cpp TagbarOpen
