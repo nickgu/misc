@@ -13,16 +13,15 @@ se tabstop=4
 se nobackup
 se nowritebackup
 
-
 function PythonBegin()
 	call setline(1, "\#! /bin/env python")
 	call setline(2, "\# encoding=utf-8")
-	call setline(3, "\# gusimiu@baidu.com")
+	call setline(3, "\# author: nickgu ")
 	call setline(4, "\# ")
 	call setline(5, "")
     call setline(6, "if __name__=='__main__':")
     call setline(7, "    ")
-	call setpos('.', [0, 7, 4, 0])
+	"call setpos('.', [0, 7, 4, 0])
 endfunction
 
 filetype on
@@ -82,6 +81,17 @@ map <C-B> <C-Q>
 " switch window and resize it max.
 map <C-W>f <C-W>w<C-W>200+<C-W>200> 
 
+
+" FOR GO LANGUAGE.
+" Some Linux distributions set filetype in /etc/vimrc.
+" Clear filetype flags before changing runtimepath to force Vim to reload them.
+filetype off
+filetype plugin indent off
+set runtimepath+=/home/users/gusimiu/software/go/misc/vim
+filetype plugin indent on
+syntax on
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+
 "tag list
 map <C-I> :!ctags --c++-kinds=+pf -R;<CR><CR>:se tags=./tags<CR>
 map <C-O> :TlistToggle<CR>
@@ -94,18 +104,17 @@ let Tlist_WinWidth=40
 " ==== PLUGIN SETTINGS ====
 
 " Pathogen
-execute pathogen#infect()
+"   management the directory of plugins.
+call pathogen#infect()
+call pathogen#helptags()
 
-" FOR GO LANGUAGE.
-" Some Linux distributions set filetype in /etc/vimrc.
-" Clear filetype flags before changing runtimepath to force Vim to reload them.
-filetype off
-filetype plugin indent off
-set runtimepath+=/home/users/gusimiu/software/go/misc/vim
-filetype plugin indent on
-syntax on
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
+" Vundle 
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
 
+" need to install silver-searcher
+" use :Ag to search in directory.
+Plugin 'rking/ag.vim'
 
 " TagBar
 "   https://github.com/majutsushi/tagbar/
@@ -113,18 +122,21 @@ autocmd FileType go autocmd BufWritePre <buffer> Fmt
 " toggle tagbar by default.
 " :TagbarToggle
 let g:tagbar_left=1
-let g:tagbar_width = 40
-au Filetype python TagbarToggle
-nmap <F9> :TagbarToggle<CR>
+let g:tagbar_width = 30
+"au Filetype python TagbarOpen
+"au Filetype cpp TagbarOpen
+nmap <S-Q> :TagbarToggle<CR>
 
 " NerdTree.
 "   https://github.com/scrooloose/nerdtree/
-let NERDTreeWinPos="right"
-au Filetype python NERDTree
-nmap <F10> :NERDTreeToggle<CR>
+let NERDTreeWinPos="left"
+"au Filetype python NERDTree
+"au Filetype cpp NERDTree
+nmap <S-W> :NERDTreeToggle<CR>
 
 " CtrlP
-let g:ctrlp_map = '<c-p>'
+"   https://github.com/ctrlpvim/ctrlp.vim
+let g:ctrlp_map = '<s-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
 
