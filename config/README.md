@@ -1,3 +1,2 @@
-
-# 用于部署机器时的配置
+# My machine config and setup script.
 

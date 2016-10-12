@@ -109,12 +109,12 @@ call pathogen#infect()
 call pathogen#helptags()
 
 " Vundle 
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
+"call vundle#begin()
+"Plugin 'VundleVim/Vundle.vim'
 
 " need to install silver-searcher
 " use :Ag to search in directory.
-Plugin 'rking/ag.vim'
+"Plugin 'rking/ag.vim'
 
 " TagBar
 "   https://github.com/majutsushi/tagbar/
