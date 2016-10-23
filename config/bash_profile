@@ -5,8 +5,32 @@ if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
-#export LC_ALL=C
-#export LANG=C
+###############################
+# Global Env.
+##############################
+
+# my specific environment and startup programs
+export LAB="/home/nickgu/lab/"
+export MISC_PATH=$LAB/misc
+export PYDEV_PATH=$LAB/pydev
+export MLTOOL_PATH=$LAB/mltool
+
+# CUDA.
+export CUDA_HOME=/usr/local/cuda
+
+# Dynamic library
+export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:$CUDA_HOME/lib64"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDA_HOME/lib64"
+
+# Path.
+export PATH="$CUDA_HOME/bin:$PATH:$HOME/.local/bin:$HOME/bin"
+export PYTHONPATH="$PYTHONPATH:$MISC_PATH:$PYDEV_PATH:$MLTOOLPATH"
+
+
+
+#############################
+#  SET Locale to en.utf-8
+#############################
 lang_type="en_US.UTF-8"
 export LANG=$lang_type
 export LANGUAGE=$lang_type
@@ -24,19 +48,7 @@ export LC_MEASUREMENT=$lang_type
 export LC_IDENTIFICATION=$lang_type
 export LC_ALL=
 
-# User specific environment and startup programs
-MISC_PATH=$HOME/lab/misc
-export MISC_PATH 
-
-PATH=$PATH:$MISC_PATH/tool
-PATH=$PATH:$HOME/.local/bin:$HOME/bin
-
-PYTHONPATH=$PYTHONPATH:$MISC_PATH/pygsm
-
-export PATH
-
 unset USERNAME
-
 
 # ls color set.
 #export LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tz=01;31:*.rpm=01;31:*.cpio=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.png=01;35:*.tif=01;35:"
@@ -47,8 +59,6 @@ alias hig='hi|grep'
 alias gcl=~/lisp/gcl-2.6.7/bin/gcl
 alias py=python
 alias ll='ls -lh'
-#alias hfs_stoff="/home/work/gusimiu/hadoop-client-stoff/hadoop/bin/hadoop fs"
-#alias hfs_sz="/home/work/gusimiu/hadoop-client-szjjh/hadoop/bin/hadoop fs"
 
 # screen dir.
 export TERM=linux
