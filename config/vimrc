@@ -121,7 +121,7 @@ call pathogen#helptags()
 " SideBar for current file.
 " toggle tagbar by default.
 " :TagbarToggle
-let g:tagbar_left=0
+let g:tagbar_left=1
 let g:tagbar_width = 30
 "au Filetype python TagbarOpen
 "au Filetype cpp TagbarOpen
