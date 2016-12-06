@@ -24,6 +24,9 @@ function PythonBegin()
 	"call setpos('.', [0, 7, 4, 0])
 endfunction
 
+se foldmethod=indent
+au Filetype cpp se foldmethod=syntax
+
 filetype on
 se expandtab
 se smarttab
@@ -138,5 +141,11 @@ nmap <S-W> :NERDTreeToggle<CR>
 "   https://github.com/ctrlpvim/ctrlp.vim
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+
+" pydiction
+let g:pydiction_location = '/home/nickgu/.vim/bundle/pydiction/complete-dict'
+"let g:pydiction_menu_height = 5
+
+
 
 
