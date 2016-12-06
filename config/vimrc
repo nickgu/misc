@@ -24,8 +24,10 @@ function PythonBegin()
 	"call setpos('.', [0, 7, 4, 0])
 endfunction
 
+" set corresponding fold method and maximum level.
 se foldmethod=indent
 au Filetype cpp se foldmethod=syntax
+se foldlevel=1000
 
 filetype on
 se expandtab
