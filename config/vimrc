@@ -17,6 +17,10 @@ se nowritebackup
 " allow command shown in current window.
 se term=linux
 
+" set the current line hilight.
+highlight CursorLine cterm=NONE ctermbg=cyan
+set cursorline
+
 function PythonBegin()
 	call setline(1, "\#! /bin/env python")
 	call setline(2, "\# encoding=utf-8")
@@ -74,9 +78,8 @@ map <F8> :%s/\r//g<CR>
 map + gt
 map _ gT
 
-map <F11> :!p=`pwd\|grep ".*gusimiu/[^/]*/[^/]*/" -o`; echo $p; ctags --c++-kinds=+p -R $p; mv tags ~/gusimiu/;<CR><CR>:se tags=~/gusimiu/tags<CR>
-se tags=~/tags
-
+" make ctags in current directory recurrently.
+map <F11> :!ctags -R --c++-kinds=+px --fields=iaS --extra=+q 
 
 map <C-H> O//---------------------------  --------------------------<ESC>bhi
 au Filetype python map <C-H> O##################################################<ESC>bhi
