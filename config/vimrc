@@ -18,7 +18,7 @@ se nowritebackup
 se term=linux
 
 " set the current line hilight.
-highlight CursorLine cterm=NONE ctermbg=cyan
+highlight CursorLine cterm=NONE ctermbg=4 " blue
 set cursorline
 
 function PythonBegin()
