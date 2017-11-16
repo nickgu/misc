@@ -111,6 +111,7 @@ nmap <S-Q> :TagbarToggle<CR>
 Plugin 'scrooloose/nerdtree'
 let NERDTreeWinPos="right"
 let NERDTreeWinSize=60
+let NERDTreeIgnore=['\.d$[[dir]]', '\.o$[[file]]']
 nmap <S-W> :NERDTreeToggle<CR>
 "autocmd vimenter * NERDTree
 
