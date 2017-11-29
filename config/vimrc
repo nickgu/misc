@@ -104,6 +104,7 @@ let g:ctrlp_cmd = 'CtrlP'
 Plugin 'majutsushi/tagbar'
 let g:tagbar_left=1
 let g:tagbar_width = 30
+let g:tagbar_iconchars = ['+', '-']
 "au Filetype python TagbarOpen
 "au Filetype cpp TagbarOpen
 nmap <S-Q> :TagbarToggle<CR>
