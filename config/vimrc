@@ -74,6 +74,8 @@ map <C-N> :noh<CR>
 map <F6> :se fdm=syntax<CR>
 map <F7> :se fdm=manual<CR>
 map <F8> :%s/\r//g<CR>
+" quickly switch window.
+map <C-F> <C-W>w
 
 map + gt
 map _ gT
@@ -112,7 +114,7 @@ nmap <S-Q> :TagbarToggle<CR>
 Plugin 'scrooloose/nerdtree'
 let NERDTreeWinPos="right"
 let NERDTreeWinSize=60
-let NERDTreeIgnore=['\.d$[[dir]]', '\.o$[[file]]']
+let NERDTreeIgnore=['\.d$[[dir]]', '\.o$[[file]]', '\.pyc$[[file]]']
 nmap <S-W> :NERDTreeToggle<CR>
 "autocmd vimenter * NERDTree
 
