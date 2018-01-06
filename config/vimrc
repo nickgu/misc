@@ -17,6 +17,10 @@ se nowritebackup
 " allow command shown in current window.
 se term=linux
 
+" set the current line hilight.
+highlight CursorLine cterm=NONE ctermbg=4 " blue
+set cursorline
+
 function PythonBegin()
 	call setline(1, "\#! /bin/env python")
 	call setline(2, "\# encoding=utf-8")
@@ -33,7 +37,7 @@ se foldmethod=indent
 au Filetype cpp se foldmethod=syntax
 se foldlevel=1000
 
-filetype on
+filetype off " vundle required
 se expandtab
 se smarttab
 au Filetype python se formatoptions+=r
@@ -70,88 +74,50 @@ map <C-N> :noh<CR>
 map <F6> :se fdm=syntax<CR>
 map <F7> :se fdm=manual<CR>
 map <F8> :%s/\r//g<CR>
+" quickly switch window.
+map <C-F> <C-W>w
 
 map + gt
 map _ gT
 
-map <F11> :!p=`pwd\|grep ".*gusimiu/[^/]*/[^/]*/" -o`; echo $p; ctags --c++-kinds=+p -R $p; mv tags ~/gusimiu/;<CR><CR>:se tags=~/gusimiu/tags<CR>
-se tags=~/tags
-
+" make ctags in current directory recurrently.
+map <F11> :!ctags -R --c++-kinds=+px --fields=iaS --extra=+q 
 
 map <C-H> O//---------------------------  --------------------------<ESC>bhi
 au Filetype python map <C-H> O##################################################<ESC>bhi
 
-map <C-O> O/**<CR> <CR>/<UP><ESC>$a
-map <C-F> O/**<CR>author : gusimiu@baidu.com<CR>date : <CR>brief : <CR>/<UP><UP><ESC>$a
-map <C-I> $a ///< 
-map <C-L> O/*  */<ESC>bhi
 map <C-B> <C-Q>
 
 " switch window and resize it max.
 map <C-W>f <C-W>w<C-W>200+<C-W>200> 
 
 
-" FOR GO LANGUAGE.
-" Some Linux distributions set filetype in /etc/vimrc.
-" Clear filetype flags before changing runtimepath to force Vim to reload them.
-filetype off
-filetype plugin indent off
-set runtimepath+=/home/users/gusimiu/software/go/misc/vim
-filetype plugin indent on
-syntax on
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
+" ==== VUNDLE PLUGIN SETTINGS ====
+se rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-"tag list
-map <C-I> :!ctags --c++-kinds=+pf -R;<CR><CR>:se tags=tags<CR>
-map <C-O> :TlistToggle<CR>
-"let Tlist_File_Fold_Auto_Close=1
-let Tlist_WinWidth=40
+Plugin 'VundleVim/Vundle.vim'
 
-" comdg.vim plug access.
-"let loaded_gendocument=0
+Plugin 'kien/ctrlp.vim'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
-" ==== PLUGIN SETTINGS ====
 
-" Pathogen
-"   management the directory of plugins.
-call pathogen#infect()
-call pathogen#helptags()
-
-" Vundle 
-"call vundle#begin()
-"Plugin 'VundleVim/Vundle.vim'
-
-" need to install silver-searcher
-" use :Ag to search in directory.
-"Plugin 'rking/ag.vim'
-
-" TagBar
-"   https://github.com/majutsushi/tagbar/
-" SideBar for current file.
-" toggle tagbar by default.
-" :TagbarToggle
+Plugin 'majutsushi/tagbar'
 let g:tagbar_left=1
 let g:tagbar_width = 30
+let g:tagbar_iconchars = ['+', '-']
 "au Filetype python TagbarOpen
 "au Filetype cpp TagbarOpen
 nmap <S-Q> :TagbarToggle<CR>
 
-" NerdTree.
-"   https://github.com/scrooloose/nerdtree/
-let NERDTreeWinPos="left"
-"au Filetype python NERDTree
-"au Filetype cpp NERDTree
+Plugin 'scrooloose/nerdtree'
+let NERDTreeWinPos="right"
+let NERDTreeWinSize=60
+let NERDTreeIgnore=['\.d$[[dir]]', '\.o$[[file]]', '\.pyc$[[file]]']
 nmap <S-W> :NERDTreeToggle<CR>
+"autocmd vimenter * NERDTree
 
-" CtrlP
-"   https://github.com/ctrlpvim/ctrlp.vim
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-
-" pydiction
-let g:pydiction_location = '/home/nickgu/.vim/bundle/pydiction/complete-dict'
-"let g:pydiction_menu_height = 5
-
-
-
+call vundle#end()
+filetype plugin indent on  " vundle required
 
