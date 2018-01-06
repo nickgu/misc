@@ -12,7 +12,7 @@ cp bash_profile ~/.bash_profile
 cp tmux.conf ~/.tmux.conf
 
 tar zxvf vim.tar.gz
-cp -r vim ~/.vim
+cp -r .vim ~/.vim
 
 
 
