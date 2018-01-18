@@ -65,6 +65,13 @@ alias ll='ls -lh'
 export TERM=linux
 #export SCREENDIR=$HOME/gsm-screen
 
+make_ps() {
+    # PS1
+    add=$(hostname | awk -F '.' '{print $1}' | awk -F '-' '{print $(NF - 1)}')
+    PS1="\[\033[00;33m\]\u\[\033[00;31m\]@\[\033[00;31m\]${add} \[\033[00;36m\]\w\[\033[00m\]\$ "
+}
+
+make_ps
 #PS1="\033[32;1m[\`if [[ \$? == "0" ]]; then echo -e '\\033[33m^_^'; else echo -e '\\033[31m@_@'; fi\`\[\e[32;1m\]][\[\e[37m\]`hostname`\[\e[32;1m\]]-[\[\e[37m\]\w\[\e[32;1m\]] \[\e[0m\]"
-PS1="\e[0;33m(\u)\e \e[0;36m[\W] \e[m"
+#PS1="\e[0;33m(\u)\e \e[0;36m[\W] \e[m"
 
