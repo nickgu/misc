@@ -54,8 +54,12 @@ se ruler
 se wildmenu
 se tags=./tags,tags,$HOME/rs/tags
 
+" detection encoder order.
 set fencs=ucs-bom,UTF-8,cp936,default,latin1
-set encoding=chinese 
+" encoder on file writer.
+"set fenc=utf-8
+" output buffer encoder.
+set encoding=utf-8 
 
 set list                
 set listchars=tab:>-,trail:-
