@@ -119,7 +119,7 @@ Plugin 'scrooloose/nerdtree'
 let NERDTreeWinPos="right"
 let NERDTreeWinSize=60
 let NERDTreeIgnore=['\.d$[[dir]]', '\.o$[[file]]', '\.pyc$[[file]]']
-nmap <S-W> :NERDTreeToggle<CR>
+nmap <S-A> :NERDTreeToggle<CR>
 "autocmd vimenter * NERDTree
 
 call vundle#end()
