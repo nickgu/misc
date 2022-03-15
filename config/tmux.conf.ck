@@ -1,0 +1,69 @@
+# gusimiu's tmux config.
+
+
+# set window-name unchanged.
+# use tmux source-file $TMUX_CONF to reload.
+set -g automatic-rename off
+set -g allow-rename off
+
+set -g prefix C-a
+unbind C-b
+
+#set-option -g status-keys vi
+#set-window-option -g mode-keys vi
+
+bind -n F1 previous-window
+bind -n F2 next-window
+bind -n F3 command-prompt "rename-window %%"
+bind -n F4 new-window
+
+#bind -n C-a previous-window
+#bind -n C-s next-window
+#bind -n C-q command-prompt "rename-window %%"
+#bind -n C-w new-window
+
+# F1-4 may be disabled in some env.
+bind -n C-z previous-window
+bind -n C-x next-window
+bind -n F8 command-prompt "rename-window %%"
+bind -n F9 new-window
+
+
+bind -n F5 confirm kill-window
+bind -n F6 detach
+bind -n F7 confirm kill-session
+
+# pane-management.
+#bind -n F8 splitw -h -l 120
+#bind -n F9 kill-pane -t 1
+#bind -n F12 select-pane -t :.+
+
+
+# open man for something.
+bind C-m command-prompt -p "man:" "splitw -h 'exec man %%'"
+unbind C-p
+# open new python.
+#bind -n C-x splitw -l 120 -h 'exec python'
+
+# STATUS BAR disply.
+set -g status-bg cyan
+set -g status-fg black
+
+#setw -g window-status-bg cyan
+#setw -g window-status-fg blue
+
+#set -g status-left " [ %Y-%b-%d %H:%M ] "
+#set -g status-left-fg yellow
+#set -g status-left-bg blue
+#set -g status-left-length 50
+#set -g status-right-length 20
+#set -g status-right-fg yellow
+#set -g status-right-bg blue
+
+#setw -g window-status-current-fg white
+#setw -g window-status-current-bg red
+#setw -g window-status-current-attr bright
+
+setw -g window-status-current-format "[ #I:#W ]"
+setw -g window-status-format " #I:#W "
+
